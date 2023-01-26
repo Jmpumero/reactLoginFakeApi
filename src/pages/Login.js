@@ -25,7 +25,7 @@ class Login extends Component {
         });
     }
 
-    iniciarSesion=async()=>{
+    iniciarSesion2=async()=>{
         await axios.get(baseUrl, {params: {username: this.state.form.username, password: md5(this.state.form.password)}})
         .then(response=>{
             return response.data;
@@ -49,6 +49,32 @@ class Login extends Component {
         })
 
     }
+
+    async iniciarSesion(){
+        try{
+
+            const response = await axios("https://b63ycaa0e0.execute-api.us-east-1.amazonaws.com/v1/login", { 
+                method: 'post',    
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                data:JSON.stringify({
+                    "email": "admin@intelix.biz",
+                    "password": "123"
+                })
+            });
+            
+            return response;
+        }
+        catch(error) {
+            console.error(error);
+            return error.response;
+        }
+    }
+
+
+
+
 
     componentDidMount() {
         if(cookies.get('username')){
@@ -80,7 +106,7 @@ class Login extends Component {
               onChange={this.handleChange}
             />
             <br />
-            <button className="btn btn-primary" onClick={()=> this.iniciarSesion()}>Iniciar Sesión</button>
+            <button className="btn btn-primary" onClick={ ()=> this.iniciarSesion()}>Iniciar Sesión</button>
           </div>
         </div>
       </div>
